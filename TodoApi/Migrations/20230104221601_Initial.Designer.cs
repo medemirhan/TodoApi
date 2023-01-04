@@ -11,7 +11,7 @@ using TodoApi.Models;
 namespace TodoApi.Migrations
 {
     [DbContext(typeof(TodoContext))]
-    [Migration("20230104211918_Initial")]
+    [Migration("20230104221601_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
