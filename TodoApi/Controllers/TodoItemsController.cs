@@ -58,6 +58,7 @@ public class TodoItemsController : ControllerBase
         }
 
         todoItem.Name = todoDTO.Name;
+        todoItem.IsStarred = todoDTO.IsStarred;
         todoItem.IsComplete = todoDTO.IsComplete;
 
         try
@@ -81,6 +82,7 @@ public class TodoItemsController : ControllerBase
     {
         var todoItem = new TodoItem
         {
+            IsStarred = todoDTO.IsStarred,
             IsComplete = todoDTO.IsComplete,
             Name = todoDTO.Name
         };
@@ -121,6 +123,7 @@ public class TodoItemsController : ControllerBase
        {
            Id = todoItem.Id,
            Name = todoItem.Name,
+           IsStarred = todoItem.IsStarred,
            IsComplete = todoItem.IsComplete
        };
 }

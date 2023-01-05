@@ -32,6 +32,9 @@ namespace TodoApi.Migrations
                     b.Property<bool>("IsComplete")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsStarred")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 

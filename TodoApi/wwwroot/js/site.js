@@ -12,6 +12,7 @@ function addItem() {
   const addNameTextbox = document.getElementById('add-name');
 
   const item = {
+    isStarred: false,
     isComplete: false,
     name: addNameTextbox.value.trim()
   };
@@ -45,6 +46,7 @@ function displayEditForm(id) {
   
   document.getElementById('edit-name').value = item.name;
   document.getElementById('edit-id').value = item.id;
+  document.getElementById('edit-isStarred').checked = item.isStarred;
   document.getElementById('edit-isComplete').checked = item.isComplete;
   document.getElementById('editForm').style.display = 'block';
 }
@@ -53,6 +55,7 @@ function updateItem() {
   const itemId = document.getElementById('edit-id').value;
   const item = {
     id: parseInt(itemId, 10),
+    isStarred: document.getElementById('edit-isStarred').checked,
     isComplete: document.getElementById('edit-isComplete').checked,
     name: document.getElementById('edit-name').value.trim()
   };
@@ -92,6 +95,11 @@ function _displayItems(data) {
   const button = document.createElement('button');
 
   data.forEach(item => {
+    let isStarredCheckbox = document.createElement('input');
+    isStarredCheckbox.type = 'checkbox';
+    isStarredCheckbox.disabled = true;
+    isStarredCheckbox.checked = item.isStarred;
+
     let isCompleteCheckbox = document.createElement('input');
     isCompleteCheckbox.type = 'checkbox';
     isCompleteCheckbox.disabled = true;
@@ -108,17 +116,20 @@ function _displayItems(data) {
     let tr = tBody.insertRow();
     
     let td1 = tr.insertCell(0);
-    td1.appendChild(isCompleteCheckbox);
+    td1.appendChild(isStarredCheckbox);
 
     let td2 = tr.insertCell(1);
-    let textNode = document.createTextNode(item.name);
-    td2.appendChild(textNode);
+    td2.appendChild(isCompleteCheckbox);
 
     let td3 = tr.insertCell(2);
-    td3.appendChild(editButton);
+    let textNode = document.createTextNode(item.name);
+    td3.appendChild(textNode);
 
     let td4 = tr.insertCell(3);
-    td4.appendChild(deleteButton);
+    td4.appendChild(editButton);
+
+    let td5 = tr.insertCell(4);
+    td5.appendChild(deleteButton);
   });
 
   todos = data;

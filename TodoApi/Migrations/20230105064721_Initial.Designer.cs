@@ -11,7 +11,7 @@ using TodoApi.Models;
 namespace TodoApi.Migrations
 {
     [DbContext(typeof(TodoContext))]
-    [Migration("20230104221601_Initial")]
+    [Migration("20230105064721_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -33,6 +33,9 @@ namespace TodoApi.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<bool>("IsComplete")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsStarred")
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
