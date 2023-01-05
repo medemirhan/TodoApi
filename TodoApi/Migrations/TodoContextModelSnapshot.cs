@@ -32,7 +32,7 @@ namespace TodoApi.Migrations
                     b.Property<bool>("IsComplete")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsStarred")
+                    b.Property<bool>("IsHighPriority")
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")

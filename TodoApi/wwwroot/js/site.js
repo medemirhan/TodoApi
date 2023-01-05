@@ -12,7 +12,7 @@ function addItem() {
   const addNameTextbox = document.getElementById('add-name');
 
   const item = {
-    isStarred: false,
+    isHighPriority: false,
     isComplete: false,
     name: addNameTextbox.value.trim()
   };
@@ -46,7 +46,7 @@ function displayEditForm(id) {
   
   document.getElementById('edit-name').value = item.name;
   document.getElementById('edit-id').value = item.id;
-  document.getElementById('edit-isStarred').checked = item.isStarred;
+  document.getElementById('edit-isHighPriority').checked = item.isHighPriority;
   document.getElementById('edit-isComplete').checked = item.isComplete;
   document.getElementById('editForm').style.display = 'block';
 }
@@ -55,7 +55,7 @@ function updateItem() {
   const itemId = document.getElementById('edit-id').value;
   const item = {
     id: parseInt(itemId, 10),
-    isStarred: document.getElementById('edit-isStarred').checked,
+    isHighPriority: document.getElementById('edit-isHighPriority').checked,
     isComplete: document.getElementById('edit-isComplete').checked,
     name: document.getElementById('edit-name').value.trim()
   };
@@ -95,10 +95,10 @@ function _displayItems(data) {
   const button = document.createElement('button');
 
   data.forEach(item => {
-    let isStarredCheckbox = document.createElement('input');
-    isStarredCheckbox.type = 'checkbox';
-    isStarredCheckbox.disabled = true;
-    isStarredCheckbox.checked = item.isStarred;
+    let isHighPriorityCheckbox = document.createElement('input');
+    isHighPriorityCheckbox.type = 'checkbox';
+    isHighPriorityCheckbox.disabled = true;
+    isHighPriorityCheckbox.checked = item.isHighPriority;
 
     let isCompleteCheckbox = document.createElement('input');
     isCompleteCheckbox.type = 'checkbox';
@@ -116,7 +116,7 @@ function _displayItems(data) {
     let tr = tBody.insertRow();
     
     let td1 = tr.insertCell(0);
-    td1.appendChild(isStarredCheckbox);
+    td1.appendChild(isHighPriorityCheckbox);
 
     let td2 = tr.insertCell(1);
     td2.appendChild(isCompleteCheckbox);

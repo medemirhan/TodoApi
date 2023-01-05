@@ -58,7 +58,7 @@ public class TodoItemsController : ControllerBase
         }
 
         todoItem.Name = todoDTO.Name;
-        todoItem.IsStarred = todoDTO.IsStarred;
+        todoItem.IsHighPriority = todoDTO.IsHighPriority;
         todoItem.IsComplete = todoDTO.IsComplete;
 
         try
@@ -82,7 +82,7 @@ public class TodoItemsController : ControllerBase
     {
         var todoItem = new TodoItem
         {
-            IsStarred = todoDTO.IsStarred,
+            IsHighPriority = todoDTO.IsHighPriority,
             IsComplete = todoDTO.IsComplete,
             Name = todoDTO.Name
         };
@@ -123,7 +123,7 @@ public class TodoItemsController : ControllerBase
        {
            Id = todoItem.Id,
            Name = todoItem.Name,
-           IsStarred = todoItem.IsStarred,
+           IsHighPriority = todoItem.IsHighPriority,
            IsComplete = todoItem.IsComplete
        };
 }

@@ -17,7 +17,7 @@
         <h3>Edit</h3>
         <form action="javascript:void(0);" onsubmit="updateItem()">
             <input type="hidden" id="edit-id">
-            <input type="checkbox" id="edit-isStarred">
+            <input type="checkbox" id="edit-isHighPriority">
             <input type="checkbox" id="edit-isComplete">
             <input type="text" id="edit-name">
             <input type="submit" value="Save">
@@ -27,10 +27,20 @@
 
     <p id="counter"></p>
 
+    <style>
+        table,
+        th,
+        td {
+            padding: 10px;
+            border: 10px black;
+            border-collapse: initial;
+        }
+    </style>
+
     <table>
         <tr>
-            <th>Is Starred?</th>
-            <th>Is Complete?</th>
+            <th>High Priority</th>
+            <th>Completed</th>
             <th>Name</th>
             <th></th>
             <th></th>
