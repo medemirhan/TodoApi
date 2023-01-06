@@ -86,6 +86,31 @@ function _displayCount(itemCount) {
   document.getElementById('counter').innerText = `${itemCount} ${name}`;
 }
 
+function onClickedCheckbox(item, priorityChanged = false, completenessChanged = false) {
+  if (priorityChanged == completenessChanged)
+      throw new Error('Either priority or completeness should be changed.');
+
+  if(priorityChanged)
+      item.isHighPriority = !item.isHighPriority;
+  else
+      item.isComplete = !item.isComplete;
+
+  fetch(`${uri}/${item.id}`, {
+    method: 'PUT',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(item)
+  })
+  .then(() => getItems())
+  .catch(error => console.error('Unable to update item.', error));
+
+  closeInput();
+
+  return false;
+}
+
 function _displayItems(data) {
   const tBody = document.getElementById('todos');
   tBody.innerHTML = '';
@@ -97,13 +122,19 @@ function _displayItems(data) {
   data.forEach(item => {
     let isHighPriorityCheckbox = document.createElement('input');
     isHighPriorityCheckbox.type = 'checkbox';
-    isHighPriorityCheckbox.disabled = true;
+    isHighPriorityCheckbox.disabled = false;
     isHighPriorityCheckbox.checked = item.isHighPriority;
+    isHighPriorityCheckbox.addEventListener('change', (event) => {
+        onClickedCheckbox(item, priorityChanged = true, completenessChanged = false);
+    })
 
     let isCompleteCheckbox = document.createElement('input');
     isCompleteCheckbox.type = 'checkbox';
-    isCompleteCheckbox.disabled = true;
+    isCompleteCheckbox.disabled = false;
     isCompleteCheckbox.checked = item.isComplete;
+    isCompleteCheckbox.addEventListener('change', (event) => {
+        onClickedCheckbox(item, priorityChanged = false, completenessChanged = true);
+    })
 
     let editButton = button.cloneNode(false);
     editButton.innerText = 'Edit';
