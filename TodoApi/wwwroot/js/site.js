@@ -46,19 +46,28 @@ function displayEditForm(id) {
   
   document.getElementById('edit-name').value = item.name;
   document.getElementById('edit-id').value = item.id;
-  document.getElementById('edit-isHighPriority').checked = item.isHighPriority;
-  document.getElementById('edit-isComplete').checked = item.isComplete;
   document.getElementById('editForm').style.display = 'block';
 }
 
-function updateItem() {
-  const itemId = document.getElementById('edit-id').value;
-  const item = {
-    id: parseInt(itemId, 10),
-    isHighPriority: document.getElementById('edit-isHighPriority').checked,
-    isComplete: document.getElementById('edit-isComplete').checked,
-    name: document.getElementById('edit-name').value.trim()
-  };
+function updateItem(id, priorityChanged = false, completenessChanged = false) {
+  if (priorityChanged && completenessChanged)
+      throw new Error('Either priority or completeness should be changed.');
+
+  if (id == undefined){
+      var itemId = parseInt(document.getElementById('edit-id').value, 10);
+      var item = todos.find(item => item.id === itemId);
+      item.name = document.getElementById('edit-name').value.trim();
+  }
+  else {
+      var itemId = id;
+      var item = todos.find(item => item.id === itemId);
+      if (priorityChanged)
+          item.isHighPriority = !item.isHighPriority;
+      else if (completenessChanged)
+          item.isComplete = !item.isComplete;
+      else
+          throw new Error('Nothing has changed. This function is called mistakenly.');
+  }
 
   fetch(`${uri}/${itemId}`, {
     method: 'PUT',
@@ -86,31 +95,6 @@ function _displayCount(itemCount) {
   document.getElementById('counter').innerText = `${itemCount} ${name}`;
 }
 
-function onClickedCheckbox(item, priorityChanged = false, completenessChanged = false) {
-  if (priorityChanged == completenessChanged)
-      throw new Error('Either priority or completeness should be changed.');
-
-  if(priorityChanged)
-      item.isHighPriority = !item.isHighPriority;
-  else
-      item.isComplete = !item.isComplete;
-
-  fetch(`${uri}/${item.id}`, {
-    method: 'PUT',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(item)
-  })
-  .then(() => getItems())
-  .catch(error => console.error('Unable to update item.', error));
-
-  closeInput();
-
-  return false;
-}
-
 function _displayItems(data) {
   const tBody = document.getElementById('todos');
   tBody.innerHTML = '';
@@ -125,7 +109,7 @@ function _displayItems(data) {
     isHighPriorityCheckbox.disabled = false;
     isHighPriorityCheckbox.checked = item.isHighPriority;
     isHighPriorityCheckbox.addEventListener('change', (event) => {
-        onClickedCheckbox(item, priorityChanged = true, completenessChanged = false);
+        updateItem(item.id, priorityChanged = true, completenessChanged = false);
     })
 
     let isCompleteCheckbox = document.createElement('input');
@@ -133,7 +117,7 @@ function _displayItems(data) {
     isCompleteCheckbox.disabled = false;
     isCompleteCheckbox.checked = item.isComplete;
     isCompleteCheckbox.addEventListener('change', (event) => {
-        onClickedCheckbox(item, priorityChanged = false, completenessChanged = true);
+        updateItem(item.id, priorityChanged = false, completenessChanged = true);
     })
 
     let editButton = button.cloneNode(false);
