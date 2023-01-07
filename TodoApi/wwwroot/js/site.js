@@ -11,6 +11,11 @@ function getItems() {
 function addItem() {
   const addNameTextbox = document.getElementById('add-name');
 
+  if (addNameTextbox.value.length == 0) {
+      alert("Nothing to add. Field is empty.");
+      return false; 
+  }
+
   const item = {
     isHighPriority: false,
     isComplete: false,
