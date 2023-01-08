@@ -2,28 +2,26 @@
 
 #nullable disable
 
-namespace TodoApi.Migrations
+namespace TodoApi.Migrations.TodoList
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class initlistsdb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "TodoItems",
+                name: "TodoLists",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsHighPriority = table.Column<bool>(type: "bit", nullable: false),
-                    IsComplete = table.Column<bool>(type: "bit", nullable: false),
-                    Secret = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    TodoIds = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TodoItems", x => x.Id);
+                    table.PrimaryKey("PK_TodoLists", x => x.Id);
                 });
         }
 
@@ -31,7 +29,7 @@ namespace TodoApi.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "TodoItems");
+                name: "TodoLists");
         }
     }
 }

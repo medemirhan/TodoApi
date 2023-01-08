@@ -6,10 +6,12 @@ using TodoApi.Models;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-//builder.Services.AddDbContext<TodoContext>(opt =>
+//builder.Services.AddDbContext<TodoItemContext>(opt =>
 //    opt.UseInMemoryDatabase("TodoList"));
-builder.Services.AddDbContext<TodoContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("TodoContext")));
+builder.Services.AddDbContext<TodoItemContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("TodoItemContext")));
+builder.Services.AddDbContext<TodoListContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("TodoListContext")));
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

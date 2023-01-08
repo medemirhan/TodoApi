@@ -10,9 +10,9 @@ using TodoApi.Models;
 
 namespace TodoApi.Migrations
 {
-    [DbContext(typeof(TodoContext))]
-    [Migration("20230105111633_Initial")]
-    partial class Initial
+    [DbContext(typeof(TodoItemContext))]
+    [Migration("20230108132540_init_itemsdb")]
+    partial class inititemsdb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
