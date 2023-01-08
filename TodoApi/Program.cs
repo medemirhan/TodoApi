@@ -1,5 +1,3 @@
-// Remove the launchUrl property from Properties\launchSettings.json to force the app to open at index.html
-
 using Microsoft.EntityFrameworkCore;
 using TodoApi.Models;
 
