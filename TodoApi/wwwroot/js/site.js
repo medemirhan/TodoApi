@@ -1,14 +1,15 @@
-const uri = 'api/todoitems';
+const uriTodo = 'api/todoitems';
+const uriList = 'api/todolists';
 let todos = [];
 
-function getItems() {
-  fetch(uri)
+function getTodoItems() {
+  fetch(uriTodo)
     .then(response => response.json())
-    .then(data => _displayItems(data))
+    .then(data => _displayTodoItems(data))
     .catch(error => console.error('Unable to get items.', error));
 }
 
-function addItem() {
+function addTodoItem() {
   const addNameTextbox = document.getElementById('add-name');
 
   if (addNameTextbox.value.length == 0) {
@@ -22,7 +23,7 @@ function addItem() {
     name: addNameTextbox.value.trim()
   };
 
-  fetch(uri, {
+  fetch(uriTodo, {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
@@ -32,21 +33,21 @@ function addItem() {
   })
     .then(response => response.json())
     .then(() => {
-      getItems();
+      getTodoItems();
       addNameTextbox.value = '';
     })
     .catch(error => console.error('Unable to add item.', error));
 }
 
-function deleteItem(id) {
-  fetch(`${uri}/${id}`, {
+function deleteTodoItem(id) {
+  fetch(`${uriTodo}/${id}`, {
     method: 'DELETE'
   })
-  .then(() => getItems())
+  .then(() => getTodoItems())
   .catch(error => console.error('Unable to delete item.', error));
 }
 
-function displayEditForm(id) {
+function displayTodoEditForm(id) {
   const item = todos.find(item => item.id === id);
   
   document.getElementById('edit-name').value = item.name;
@@ -54,7 +55,7 @@ function displayEditForm(id) {
   document.getElementById('editForm').style.display = 'block';
 }
 
-function updateItem(id, priorityChanged = false, completenessChanged = false) {
+function updateTodoItem(id, priorityChanged = false, completenessChanged = false) {
   if (priorityChanged && completenessChanged)
       throw new Error('Either priority or completeness should be changed.');
 
@@ -74,7 +75,7 @@ function updateItem(id, priorityChanged = false, completenessChanged = false) {
           throw new Error('Nothing has changed. This function is called mistakenly.');
   }
 
-  fetch(`${uri}/${itemId}`, {
+  fetch(`${uriTodo}/${itemId}`, {
     method: 'PUT',
     headers: {
       'Accept': 'application/json',
@@ -82,56 +83,69 @@ function updateItem(id, priorityChanged = false, completenessChanged = false) {
     },
     body: JSON.stringify(item)
   })
-  .then(() => getItems())
+  .then(() => getTodoItems())
   .catch(error => console.error('Unable to update item.', error));
 
-  closeInput();
+  closeTodoInput();
 
   return false;
 }
 
-function closeInput() {
+function closeTodoInput() {
+  var it = document.getElementById('editForm');
+  it.style.display = 'none';
   document.getElementById('editForm').style.display = 'none';
 }
 
-function _displayCount(itemCount) {
+function _displayTodoCount(itemCount) {
   const name = (itemCount === 1) ? 'to-do' : 'to-dos';
 
   document.getElementById('counter').innerText = `${itemCount} ${name}`;
 }
 
-function _displayItems(data) {
+function _displayTodoItems(data) {
   const tBody = document.getElementById('todos');
   tBody.innerHTML = '';
 
-  _displayCount(data.length);
+  _displayTodoCount(data.length);
 
   const button = document.createElement('button');
 
   data.forEach(item => {
-    let isHighPriorityCheckbox = document.createElement('input');
-    isHighPriorityCheckbox.type = 'checkbox';
-    isHighPriorityCheckbox.disabled = false;
-    isHighPriorityCheckbox.checked = item.isHighPriority;
-    isHighPriorityCheckbox.addEventListener('change', (event) => {
-        updateItem(item.id, priorityChanged = true, completenessChanged = false);
+    let isHighPriorityCheckbox = document.createElement('body');
+    isHighPriorityCheckbox.setAttribute("class", "starButtonClass");
+    isHighPriorityCheckbox.innerHTML = '<i id="faStar" class="fa fa-star"></i>';
+    isHighPriorityCheckbox.addEventListener('click', (event) => {
+        updateTodoItem(item.id, priorityChanged = true, completenessChanged = false);
     })
+    if (item.isHighPriority){
+        isHighPriorityCheckbox.style.color = 'orange';
+    }
+    else {
+        isHighPriorityCheckbox.style.color = 'white';
+        isHighPriorityCheckbox.onmouseenter = function () {
+            isHighPriorityCheckbox.style.color = 'orange';
+        }
+        isHighPriorityCheckbox.onmouseleave = function () {
+            isHighPriorityCheckbox.style.color = 'white';
+        }
+    }
 
     let isCompleteCheckbox = document.createElement('input');
     isCompleteCheckbox.type = 'checkbox';
     isCompleteCheckbox.disabled = false;
     isCompleteCheckbox.checked = item.isComplete;
     isCompleteCheckbox.addEventListener('change', (event) => {
-        updateItem(item.id, priorityChanged = false, completenessChanged = true);
+        updateTodoItem(item.id, priorityChanged = false, completenessChanged = true);
     })
 
     let editButton = button.cloneNode(false);
     editButton.innerText = 'Edit';
-    editButton.setAttribute('onclick', `displayEditForm(${item.id})`);
+    editButton.setAttribute('onclick', `displayTodoEditForm(${item.id})`);
 
     let deleteButton = button.cloneNode(false);
     deleteButton.innerText = 'Delete';
-    deleteButton.setAttribute('onclick', `deleteItem(${item.id})`);
+    deleteButton.setAttribute('onclick', `deleteTodoItem(${item.id})`);
 
     let tr = tBody.insertRow();
     
@@ -153,4 +167,14 @@ function _displayItems(data) {
   });
 
   todos = data;
+}
+
+function onStarClicked() {
+  var div = document.getElementById('starBtn');
+  var starred = false;
+  if(div.style.color == 'white')
+      starred = true;
+
+  if(starred)
+      div.style.color = 'orange';
 }
