@@ -17,7 +17,7 @@ namespace TodoApi.Migrations
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsHighPriority = table.Column<bool>(type: "bit", nullable: false),
+                    IsStarred = table.Column<bool>(type: "bit", nullable: false),
                     IsComplete = table.Column<bool>(type: "bit", nullable: false),
                     Secret = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },

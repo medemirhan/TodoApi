@@ -17,7 +17,7 @@ function addItem() {
   }
 
   const item = {
-    isHighPriority: false,
+    isStarred: false,
     isComplete: false,
     name: addNameTextbox.value.trim()
   };
@@ -54,9 +54,9 @@ function displayEditForm(id) {
   document.getElementById('editForm').style.display = 'block';
 }
 
-function updateItem(id, priorityChanged = false, completenessChanged = false) {
-  if (priorityChanged && completenessChanged)
-      throw new Error('Either priority or completeness should be changed.');
+function updateItem(id, starChanged = false, completenessChanged = false) {
+  if (starChanged && completenessChanged)
+      throw new Error('Either stars or completeness should be changed.');
 
   if (id == undefined){
       var itemId = parseInt(document.getElementById('edit-id').value, 10);
@@ -66,8 +66,8 @@ function updateItem(id, priorityChanged = false, completenessChanged = false) {
   else {
       var itemId = id;
       var item = todos.find(item => item.id === itemId);
-      if (priorityChanged)
-          item.isHighPriority = !item.isHighPriority;
+      if (starChanged)
+          item.isStarred = !item.isStarred;
       else if (completenessChanged)
           item.isComplete = !item.isComplete;
       else
@@ -109,20 +109,31 @@ function _displayItems(data) {
   const button = document.createElement('button');
 
   data.forEach(item => {
-    let isHighPriorityCheckbox = document.createElement('input');
-    isHighPriorityCheckbox.type = 'checkbox';
-    isHighPriorityCheckbox.disabled = false;
-    isHighPriorityCheckbox.checked = item.isHighPriority;
-    isHighPriorityCheckbox.addEventListener('change', (event) => {
-        updateItem(item.id, priorityChanged = true, completenessChanged = false);
+    let isStarredButton = document.createElement('body');
+    isStarredButton.setAttribute("class", "starButtonClass");
+    isStarredButton.innerHTML = '<i id="faStar" class="fa fa-star"></i>';
+    isStarredButton.addEventListener('click', (event) => {
+        updateItem(item.id, starChanged = true, completenessChanged = false);
     })
+    if (item.isStarred) {
+        isStarredButton.style.color = 'orange';
+    }
+    else {
+        isStarredButton.style.color = 'white';
+        isStarredButton.onmouseenter = function () {
+            isStarredButton.style.color = 'orange';
+        }
+        isStarredButton.onmouseleave = function () {
+            isStarredButton.style.color = 'white';
+        }
+    }
 
     let isCompleteCheckbox = document.createElement('input');
     isCompleteCheckbox.type = 'checkbox';
     isCompleteCheckbox.disabled = false;
     isCompleteCheckbox.checked = item.isComplete;
     isCompleteCheckbox.addEventListener('change', (event) => {
-        updateItem(item.id, priorityChanged = false, completenessChanged = true);
+        updateItem(item.id, starChanged = false, completenessChanged = true);
     })
 
     let editButton = button.cloneNode(false);
@@ -136,7 +147,7 @@ function _displayItems(data) {
     let tr = tBody.insertRow();
     
     let td1 = tr.insertCell(0);
-    td1.appendChild(isHighPriorityCheckbox);
+    td1.appendChild(isStarredButton);
 
     let td2 = tr.insertCell(1);
     td2.appendChild(isCompleteCheckbox);

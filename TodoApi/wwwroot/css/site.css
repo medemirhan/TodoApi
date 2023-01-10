@@ -21,3 +21,8 @@ td {
     border: 1px solid;
     padding: 5px;
 }
+
+.starButtonClass {
+    text-shadow: 0 0 3px #000;
+    color: white;
+}

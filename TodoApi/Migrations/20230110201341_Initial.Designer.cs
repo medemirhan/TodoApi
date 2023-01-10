@@ -11,7 +11,7 @@ using TodoApi.Models;
 namespace TodoApi.Migrations
 {
     [DbContext(typeof(TodoContext))]
-    [Migration("20230105111633_Initial")]
+    [Migration("20230110201341_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -35,7 +35,7 @@ namespace TodoApi.Migrations
                     b.Property<bool>("IsComplete")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsHighPriority")
+                    b.Property<bool>("IsStarred")
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
