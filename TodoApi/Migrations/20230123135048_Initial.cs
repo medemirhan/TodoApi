@@ -19,6 +19,7 @@ namespace TodoApi.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsStarred = table.Column<bool>(type: "bit", nullable: false),
                     IsComplete = table.Column<bool>(type: "bit", nullable: false),
+                    Listing = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Secret = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>

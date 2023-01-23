@@ -5,6 +5,7 @@ public class TodoItem
     public string? Name { get; set; }
     public bool IsStarred { get; set; }
     public bool IsComplete { get; set; }
+    public string? Listing { get; set; }
     public string? Secret { get; set; }
 }
 
@@ -14,4 +15,5 @@ public class TodoItemDTO
     public string? Name { get; set; }
     public bool IsStarred { get; set; }
     public bool IsComplete { get; set; }
+    public string? Listing { get; set; }
 }
