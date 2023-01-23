@@ -5,12 +5,23 @@
     <title>To-do CRUD</title>
     <link rel="stylesheet" href="css/site.css" />
     <script src="https://kit.fontawesome.com/6b07a816e2.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 </head>
 <body>
     <h1>To-do CRUD</h1>
     <h3>Add</h3>
     <form action="javascript:void(0);" method="POST" onsubmit="addItem()">
         <input type="text" id="add-name" placeholder="New to-do">
+        <input type="submit" value="Add">
+    </form>
+
+    <h3>Add List</h3>
+    <form action="javascript:void(0);" onsubmit="addItemsToList()">
+        <input type="text" id="add-listname" placeholder="List name">
+        <select class="select2-chose-todo" multiple="multiple" id="select2-chose-todo">
+        </select>
         <input type="submit" value="Add">
     </form>
 
